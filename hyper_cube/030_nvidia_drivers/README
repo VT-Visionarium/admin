@@ -1,0 +1,8 @@
+
+   $ ubuntu-drivers devices
+
+   $ sudo ubuntu-drivers autoinstall
+
+   $ lsmod
+
+   # shows nvidia driver present
