@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ "$(id -u)" != 0 ] ; then
+	echo -e "You must run this as root\n"
+	echo -e "Example:  sudo $0\n"
+	echo -e "Script $0 Failed\n"
+	exit 1
+fi
+
+
+set -ex
+
+cd $(readlink -e $(dirname ${BASH_SOURCE[0]}))
+
+if [ ! -e /root/skel_BACKUP ] ; then
+	cp -a /etc/skel/ /root/skel_BACKUP
+fi
+
+cp -r skel/ /etc/skel/
+
+

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if [ "$(id -u)" != 0 ] ; then
+	echo -e "You must run this as root\n"
+	echo -e "Example:  sudo $0\n"
+	echo -e "Script $0 Failed\n"
+	exit 1
+fi
+
+set -ex
+
+cd $(readlink -e $(dirname ${BASH_SOURCE[0]}))
+
+dpkg --add-architecture i386
+
+apt-get update
+
+apt-get install -y\
+ build-essential\
+ gcc-multilib\
+ libgnutls30\
+ csh\
+ libstdc++6:i386\
+ libgcc1:i386\
+ zlib1g:i386\
+ libncurses5:i386
+
+apt-get install -y\
+ libgtk2.0-dev\
+ libgtk2.0-doc\
+ libgtk-3-dev\
+ libgtk-3-doc\
+ devhelp\
+ sox\
+ at\
+ vim-gtk\
+ imagemagick-doc\
+ imagemagick\
+ graphviz-dev\
+ curl\
+ pkgconf\
+ autoconf\
+ libtool\
+ automake\
+ locate\
+ libgnutls28-dev
+
+
+mkdir -p /usr/local/sbin
+cp encap encap.pl /usr/local/sbin/
+
+
+
