@@ -1,0 +1,7 @@
+apt-get install ssh
+
+edit /etc/ssh/ssd_config
+
+and add the line
+
+AllowUsers lance and other users
