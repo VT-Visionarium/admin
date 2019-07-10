@@ -1,0 +1,28 @@
+In this directory and its' subdirectories are the notes, code, and scripts
+for setting up the Virginia Tech HyperCube (CAVE).
+
+There are no secrets in these files.  I see no point in putting this data
+in a secret, limited access, repository.  There is a big advantage to
+keeping this data accessible to the general public.  Using a Virginia Tech
+resource to keep this data will limit the access to this data by myself,
+the author, because in the long term I don't necessarily control access to
+this data.  I'd venture to say that my job will never be as stable as my
+access to github.com, even though they got bought by MicroSoft.  I've
+never lost any data on github in well over 10 years (today being: Jul 10,
+2019).
+
+The subdirectory names start with a number in NNN_ where N is a decimal
+digit.  We try to keep the number order to be about the same as order in
+which the information in the subdirectory would be accessed in
+building/configuring a new hyper-cube computer, though this order may not
+be strictly required.
+
+Current operating system (OS) Ubuntu 18.04 desktop.  We will need the fast
+desktop "gaming like" kernel toning for interactive responsiveness.  Not a
+server kernel toning which may wait longer to respond to requires so that
+it is more efficient.
+
+We need to figure out if Gnone 3 and the wayland windowing system will act
+well with the Open GL graphics applications, and the Nvidia graphics
+drivers.  Currently (Jul 10, 2019) how it will preform is unknown.
+
