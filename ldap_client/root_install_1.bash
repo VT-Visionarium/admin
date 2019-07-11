@@ -33,13 +33,13 @@ service nslcd stop
 # Remove broken libnss_ldap.so; or not, if it's not there.
 # Why? Because this worked.  Installing a new version of nslcd does not
 # seem to remove this broken version of it.
-apt-get purge libnss-ldapd
+#apt-get purge libnss-ldapd
 # Why did purge not remove this?
-rm -f /lib/x86_64-linux-gnu/libnss_ldap*
+#rm -f /lib/x86_64-linux-gnu/libnss_ldap*
 
 set +x
 echo
-echo "It's okay if some of the last 5 commands failed."
+echo "It's okay if some of the last 2 commands failed."
 echo
 set -xe
 

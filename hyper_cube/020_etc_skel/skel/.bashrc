@@ -94,7 +94,7 @@ alias la="ls -aCF$color"
 alias ll="ls -htlF$color"
 alias lla="ls -ahtlF$color"
 alias gittagbydate='git log --date-order --tags --simplify-by-decoration --pretty="format:%ai %d"'
-
+unset color
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

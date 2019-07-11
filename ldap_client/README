@@ -1,0 +1,15 @@
+Setup the login authentication to use ldap://login.directory.vt.edu
+
+maybe run:
+
+
+  sudo cp -a /etc/ /root/etc_BACKUP
+
+
+run:
+
+  sudo root_install_1.bash
+
+and
+
+  sudo root_install_2.bash

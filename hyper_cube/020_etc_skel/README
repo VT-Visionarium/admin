@@ -3,3 +3,12 @@ Change some files in /etc/skel
 See *man adduser*
 
 
+maybe run:
+
+   sudo cp -r /etc/skel/ /root/etc_skel_ORG/
+
+
+run:
+
+   sudo ./01_root_script
+
