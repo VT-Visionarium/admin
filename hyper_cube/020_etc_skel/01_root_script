@@ -16,6 +16,6 @@ if [ ! -e /root/skel_BACKUP ] ; then
 	cp -a /etc/skel/ /root/skel_BACKUP
 fi
 
-cp -r skel/ /etc/skel/
+cp -r skel/.??* /etc/skel/
 
 
