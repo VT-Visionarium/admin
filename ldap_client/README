@@ -1,5 +1,7 @@
 Setup the login authentication to use ldap://login.directory.vt.edu
 
+Did this on rock (Fri Jul 12 11:42:41 EDT 2019).
+
 maybe run:
 
 
@@ -8,8 +10,8 @@ maybe run:
 
 run:
 
-  sudo root_install_1.bash
+  sudo ./root_install_1.bash
 
 and
 
-  sudo root_install_2.bash
+  sudo ./root_install_2.bash

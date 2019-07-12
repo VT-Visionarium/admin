@@ -6,3 +6,11 @@
    $ lsmod
 
    # shows nvidia driver present
+
+   https://www.configserverfirewall.com/ubuntu-linux/how-to-install-nvidia-drivers-ubuntu/
+
+   sudo apt-get install ubuntu-drivers-common
+
+   sudo ubuntu-drivers autoinstall
+
+
