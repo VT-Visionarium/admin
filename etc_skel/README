@@ -8,7 +8,8 @@ maybe run:
    sudo cp -r /etc/skel/ /root/etc_skel_ORG/
 
 
-run:
+maybe run:
 
-   sudo ./01_root_script
+   sudo cp -r  ubuntu18.04/skel/.??* /etc/skel/
+
 
