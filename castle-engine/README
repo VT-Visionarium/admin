@@ -1,0 +1,22 @@
+So far I have failed to build castle engine, but here are my notes so far.
+
+Trying on Debian 9
+
+castle engine uses Lazarus IDE (integrated development environment)
+
+
+
+# apt-get install lazarus-ide  FAILS because it's too old (as of Aug 15 2019)
+
+
+   get the deb files from:
+   https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.4/
+
+Run:
+
+   gdebi fpc-laz_3.0.4-1_amd64.deb  
+   gdebi fpc-src_3.0.4-2_amd64.deb 
+   gdebi lazarus-project_2.0.4-0_amd64.deb
+
+   ./install.bash
+
