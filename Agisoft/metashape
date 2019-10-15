@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+dir="$(dirname $(readlink -e ${BASH_SOURCE[0]}))"
+
+export DISPLAY=:0.10
+
+$dir/metashape_MovePointer
+
+exec $dir/../metashape.sh
