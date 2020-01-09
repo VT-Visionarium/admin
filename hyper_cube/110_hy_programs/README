@@ -10,11 +10,13 @@ running:
 
    ./bootstrap
    make
-   make install
-   sudo make install
+   make install SUDO_INSTALL=yes 
 
 Running ./bootscrap will download file(s).  The sudo in the second make
-is needed to install files in /etc/.
+is needed to install files in /etc/, most of the file copying does not
+use root (sudo) access.  Running 'make install' without SUDO_INSTALL set
+works too, but will not attempt to run an sudo command, and so will not
+install files in /etc/.
 
 We have no configure step between bootstrap and make.  The installation
 PREFIX is set in config.make.
