@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Run this to remove all generated and downloaded files.
+
+
+function usage() {
+
+    cat << EOF
+
+    Usage: $0 [-d]
+
+    Run this to remove all generated and downloaded files.
+
+               OPTIONS
+
+    -d  Do not remove downloaded files.  Any option argument
+        with cause this to happen.
+
+EOF
+}
+
+
+set -exo pipefail
+
+
+if [ -n "$1" ] ; then
+
+    rm -f quickbuild.make
+fi
+
+# projectors/
+##########################################
+# Same as 'make -C projectors/ clean'
+cd projectors/
+rm -rf qb_build
+rm -f hy_getRootWidth hy_projectors_off hy_projectors_on
+cd -
+
+
+# window_displays/
+##########################################
+cd window_displays/
+
+
+cd -
+
+
+

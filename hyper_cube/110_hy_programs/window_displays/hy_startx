@@ -1,0 +1,141 @@
+#!/bin/bash
+
+set -exo pipefile
+cd $(dirname ${BASH_SOURCE[0]})
+binDir="$PWD"
+# killfile must be the same path as in
+# hy_stopx.  killfile is set in hy_common
+source "$binDir"/hy_commonx
+
+
+# To test this run:
+#
+# cp xorg.conf.hy_2560x1600 /etc/X11
+# XORGCONFIG=xorg.conf.hy_2560x1600 startx
+#
+
+
+##################################################
+#          CONFIGURE resolution
+##################################################
+# These xorg.conf files need to be installed in
+# /etc/X11/ then we can select which resolution
+# we want to run with
+
+conf=xorg.conf.hy_2560x1600
+#conf=xorg.conf.hy_1920x1200
+
+##################################################
+
+if [ "$1" = "--low-res" ] ; then
+    conf=xorg.conf.hy_1920x1200
+    shift 1
+fi
+
+
+
+function usage()
+{
+    cat <<EOF
+
+  Usage: $0 [--low-res][-h|--help]
+
+  Run a xfce user desktop X session; just like logging in at a desktop
+  locker, but without looking at the desktop X11 screen.
+
+  This just runs 'startx'.  That's the correct way to start X11 when
+  there is no locking login window manager.
+
+  This script will try to stop any running instances of its self before
+  trying to run startx.
+
+  
+                      OPTIONS
+
+     -h|--help  print this help and exit
+
+     --low-res  run with lower resolution 1920x1200 pixel per root window.
+                The default resolution is 2560x1600.
+
+EOF
+    exit 1
+}
+
+[ -n "$1" ] && usage
+
+
+
+function catcher()
+{
+    set -x
+    rm -f $killfile
+    killall -ew xfce4-session
+    killall -ew startx
+    set -x
+    echo "Can't run X server, Waiting for X servers to stop"
+    set -x
+    sleep 20
+    killall hy_startx
+    exit
+}
+
+
+trap catcher SIGINT SIGTERM SIGQUIT
+
+function start()
+{
+    local count=0
+
+    if [ -e "$killfile" ] ; then
+
+        # The user that ran this is a bad user in this case.
+
+        # We make this user pay:
+        #
+        catcher
+        exit
+    fi
+
+    rm -f $killfile
+
+    # make a new and empty kill file
+    # any logged in user should be able to
+    # remove this file.
+    mkfifo -m 666 $killfile
+    export XORGCONFIG=$conf
+    startx &
+    pid=$!
+
+    # This should block until something writes $killfile
+    # See hy_stopx.
+    #
+
+    # This read call will block until something
+    # writes to the killfile
+    read line < $killfile
+    # Remove the kill file
+    rm -f $killfile
+
+    set +x
+    echo "read \"$line\" from: $killfile"
+    set -x
+
+    killall -ew xfce4-session
+    # Kill my child, startx
+    kill $pid
+ }
+
+ set -x
+
+# We run this function in the background and
+# then return.
+#
+start &
+
+
+# Trial and error shows that signaling the startx process will
+# not always stop the X session, but signaling xfce4-session
+# seems to be the correct thing to do.  So now we must find the
+# process id (PID) of the x-session-manager.  Then again why
+# bother looking for this PID here, just let killall do the work,
+# it's the same. See hy_stopx

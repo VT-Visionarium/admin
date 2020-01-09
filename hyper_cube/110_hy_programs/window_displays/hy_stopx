@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -exo pipefile
+cd $(dirname ${BASH_SOURCE[0]})
+binDir="$PWD"
+# killfile must be the same path as in
+# hy_startx
+source "$binDir"/hy_commonx
+
+
+function catcher()
+{
+    set -x
+    rm -f $killfile
+    killall -ew xfce4-session
+    # just making sure this program is not hung.
+    killall hy_stopx
+    exit
+}
+
+
+trap catcher SIGINT SIGTERM SIGQUIT
+
+
+if [ -e "$killfile" ] ; then
+    # the hy_startx script reads this
+    # file fifo for a "signal"
+    #
+    # This could hang if there is no
+    # process reading this fifo so we
+    # added a catcher to try to cleanup.
+    #
+    echo "DIE YOU RAT" >> $killfile
+fi

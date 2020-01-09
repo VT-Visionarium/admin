@@ -1,0 +1,25 @@
+This directory is used to keep the source for many programs that there
+developed for the Virginia Tech HyperCube; it's just a CAVE (Cave
+Automated Virtual Environment) with 8 high resolution projectors:
+2560x1600 pixels.
+
+Some programs are scripts and others are C/C++ code.
+
+This directory is setup like a software project the gets installed by
+running:
+
+   ./bootstrap
+   make
+   make install
+   sudo make install
+
+Running ./bootscrap will download file(s).  The sudo in the second make
+is needed to install files in /etc/.
+
+We have no configure step between bootstrap and make.  The installation
+PREFIX is set in config.make.
+
+For the most part all this code is intended to be usable by more than one
+group of people: the Virginia Tech Visualization Group which is currently
+part of ARC (Advanced Research Computing) in Blacksburg at Virginia Tech.
+
