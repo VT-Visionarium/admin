@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -exo pipefile
+set -exo pipefail
 cd $(dirname ${BASH_SOURCE[0]})
 binDir="$PWD"
 # killfile must be the same path as in

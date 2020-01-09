@@ -1,0 +1,30 @@
+edit /etc/X11/Xwrapper.config to include the line:
+allowed_users=anybody
+
+
+
+#Run:
+
+XORGCONFIG=xorg.conf.hy_2560x1600 startx
+
+GIVES SPEW:
+/usr/lib/xorg/Xorg.wrap: Only console users are allowed to run the X
+server
+
+
+So we must reconfigure so that non-console users are allowed to run the X
+server.
+
+edit /etc/X11/Xwrapper.config to include the line:
+
+allowed_users=anybody
+
+
+(==) Log file: "/home/lance/.local/share/xorg/Xorg.1.log", Time: Thu Jan  9 15:44:01 2020
+(==) Using config file: "xorg.conf.hy_2560x1600"
+(==) Using system config directory "/usr/share/X11/xorg.conf.d"
+
+We moved the config directory "/usr/share/X11/xorg.conf.d
+
+mv /usr/share/X11/xorg.conf.d /usr/share/X11/xorg.conf.d.ORG
+
