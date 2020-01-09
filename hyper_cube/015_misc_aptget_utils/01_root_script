@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [ "$(id -u)" != 0 ] ; then
 	echo -e "You must run this as root\n"
 	echo -e "Example:  sudo $0\n"

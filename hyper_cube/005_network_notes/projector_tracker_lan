@@ -15,8 +15,8 @@ projectors that are on ethernet
 
 netmask 255.255.248.0  (??)
 
-cube.sv.vt.edu (as of Jul 9 2019)
-192.168.0.10
+cube.sv.vt.edu (as of Jan 08 2020)
+192.168.0.10   netmask 255.255.248.0    default gatway 192.168.1.1
 
 woody.sv.vt.edu
 192.168.0.9

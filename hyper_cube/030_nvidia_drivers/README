@@ -1,16 +1,14 @@
 
-   $ ubuntu-drivers devices
+ubuntu-drivers devices
 
-   $ sudo ubuntu-drivers autoinstall
+sudo ubuntu-drivers autoinstall
 
-   $ lsmod
+lsmod
 
-   # shows nvidia driver present
+# Looks look a reboot is needed.
 
-   https://www.configserverfirewall.com/ubuntu-linux/how-to-install-nvidia-drivers-ubuntu/
+# to shows nvidia driver present
+nvidia-smi
 
-   sudo apt-get install ubuntu-drivers-common
-
-   sudo ubuntu-drivers autoinstall
-
+https://www.configserverfirewall.com/ubuntu-linux/how-to-install-nvidia-drivers-ubuntu/
 

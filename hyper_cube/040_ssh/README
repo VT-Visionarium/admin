@@ -1,4 +1,4 @@
-apt-get install ssh
+apt install ssh
 
 edit /etc/ssh/ssd_config
 
