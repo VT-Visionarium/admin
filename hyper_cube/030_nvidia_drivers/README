@@ -8,11 +8,14 @@ apt purge nvidia-*
 apt-get purge nvidia* 
 add-apt-repository ppa:graphics-drivers
 apt update
+
+
+
 apt-cache search nvidia | egrep '^nvidia-'
 
-# Then see which to use: nvidia-384
+apt install nvidia-driver-440
 
-apt install nvidia-384
+
 
 reboot
 
