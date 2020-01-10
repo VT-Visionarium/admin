@@ -12,9 +12,9 @@ function catcher()
 {
     set -x
     rm -f $killfile
-    killall -ew xfce4-session
     # just making sure this program is not hung.
     killall hy_stopx
+    killall wm2
     exit
 }
 

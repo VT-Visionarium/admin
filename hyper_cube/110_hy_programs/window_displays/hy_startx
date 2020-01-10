@@ -1,18 +1,29 @@
 #!/bin/bash
 
+set -e
+
+magic_arg=--hy_start_X11_ZXXx
+
+
+if [ "$1" = "$magic_arg" ] ; then
+    # This runs in the new X display
+    export DISPLAY=:0
+    xclock -geometry 1000x1000-0+0 -bw 0 &
+    xfce4-terminal --geometry=173x49+0+0 &
+    exec wm2
+fi
+
+
+
 set -exo pipefail
 cd $(dirname ${BASH_SOURCE[0]})
 binDir="$PWD"
+
 # killfile must be the same path as in
 # hy_stopx.  killfile is set in hy_common
 source "$binDir"/hy_commonx
 
-
-# To test this run:
-#
-# cp xorg.conf.hy_2560x1600 /etc/X11
-# XORGCONFIG=xorg.conf.hy_2560x1600 startx
-#
+xinitrc="${BASH_SOURCE[0]}"
 
 
 ##################################################
@@ -22,15 +33,10 @@ source "$binDir"/hy_commonx
 # /etc/X11/ then we can select which resolution
 # we want to run with
 
-conf=xorg.conf.hy_2560x1600
-#conf=xorg.conf.hy_1920x1200
+config="xorg.conf.hy_2560x1600"
+#config="xorg.conf.hy_1920x1200"
 
 ##################################################
-
-if [ "$1" = "--low-res" ] ; then
-    conf=xorg.conf.hy_1920x1200
-    shift 1
-fi
 
 
 
@@ -38,24 +44,14 @@ function usage()
 {
     cat <<EOF
 
-  Usage: $0 [--low-res][-h|--help]
+  Usage: $0 [-h|--help]
 
-  Run a xfce user desktop X session; just like logging in at a desktop
-  locker, but without looking at the desktop X11 screen.
-
-  This just runs 'startx'.  That's the correct way to start X11 when
-  there is no locking login window manager.
-
-  This script will try to stop any running instances of its self before
-  trying to run startx.
+  Runs X11 server display server for the Virginia Tech HyperCube.
 
   
                       OPTIONS
 
      -h|--help  print this help and exit
-
-     --low-res  run with lower resolution 1920x1200 pixel per root window.
-                The default resolution is 2560x1600.
 
 EOF
     exit 1
@@ -69,13 +65,7 @@ function catcher()
 {
     set -x
     rm -f $killfile
-    killall -ew xfce4-session
-    killall -ew startx
-    set -x
-    echo "Can't run X server, Waiting for X servers to stop"
-    set -x
-    sleep 20
-    killall hy_startx
+    killall -ew wm2
     exit
 }
 
@@ -84,14 +74,14 @@ trap catcher SIGINT SIGTERM SIGQUIT
 
 function start()
 {
-    local count=0
-
     if [ -e "$killfile" ] ; then
 
         # The user that ran this is a bad user in this case.
 
         # We make this user pay:
         #
+        set +x
+        echo "Cannot run X Server, waiting for an X Server to stop."
         catcher
         exit
     fi
@@ -102,17 +92,22 @@ function start()
     # any logged in user should be able to
     # remove this file.
     mkfifo -m 666 $killfile
-#    export XORGCONFIG=$conf
-    startx &
-    pid=$!
+
+    xinit "$xinitrc" $magic_arg -- -config $config &
 
     # This should block until something writes $killfile
     # See hy_stopx.
     #
-
+    set +x
+    echo "blockin on reading $killfile"
     # This read call will block until something
     # writes to the killfile
+    set -x
     read line < $killfile
+    set +x
+    echo "finished reading $killfile"
+    set -x
+
     # Remove the kill file
     rm -f $killfile
 
@@ -120,9 +115,7 @@ function start()
     echo "read \"$line\" from: $killfile"
     set -x
 
-    killall -ew xfce4-session
-    # Kill my child, startx
-    kill $pid
+    killall -ew wm2
  }
 
  set -x
@@ -132,10 +125,3 @@ function start()
 #
 start &
 
-
-# Trial and error shows that signaling the startx process will
-# not always stop the X session, but signaling xfce4-session
-# seems to be the correct thing to do.  So now we must find the
-# process id (PID) of the x-session-manager.  Then again why
-# bother looking for this PID here, just let killall do the work,
-# it's the same. See hy_stopx

@@ -18,17 +18,28 @@ server.
 edit /etc/X11/Xwrapper.config to include the line:
 
 allowed_users=anybody
+#needs_root_rights=yes
 
+# Installed a very simple window manager wm2
+apt install wm2
 
 service lightdm stop
 systemctl disable lightdm.service
 
 
-(==) Log file: "/home/lance/.local/share/xorg/Xorg.1.log", Time: Thu Jan  9 15:44:01 2020
-(==) Using config file: "xorg.conf.hy_2560x1600"
-(==) Using system config directory "/usr/share/X11/xorg.conf.d"
 
-We moved the config directory "/usr/share/X11/xorg.conf.d
+cp -a  /usr/share/X11/xorg.conf.d /usr/share/X11/xorg.conf.d.ORG
 
-mv /usr/share/X11/xorg.conf.d /usr/share/X11/xorg.conf.d.ORG
+left only the following files in /usr/share/X11/xorg.conf.d
+10-nvidia.conf  40-libinput.conf
+
+
+Run:
+./hy_start
+
+In the X windows on the cube projector left wall run:
+nvidia-settings
+
+
+
 

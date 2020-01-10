@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -eo pipefail
+
+color=blue
+lt=" LEFT EYE"
+rt="RIGHT EYE"
+leftOrRight="$lt"
+pids=
+
+
+sp='                                      '
+nl='\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n   '
+
+echo
+
+for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ; do
+    d="$leftOrRight DISPLAY=:0.$i"
+    ln="$nl $d $sp $d $sp $d $sp $d $sp $d"
+    text="$ln $ln $ln $ln $ln $ln $ln $ln"
+    export DISPLAY=:0.$i
+    echo -e "$text" | xmessage -geometry 2560x1600 -fg white -bg $color -file - &
+    pids="$pids $!"
+    echo -e "$d    $color"
+
+    if [ "$color" = "green" ] ; then
+        color=blue
+        leftOrRight="$lt"
+    else
+        color=green
+        leftOrRight="$rt"
+    fi
+done
+
+
+function catcher()
+{
+    set +x
+    echo -e "\n exiting\n"
+    kill $pids
+    exit
+}
+
+
+trap catcher SIGINT SIGTERM SIGQUIT
+
+while true ; do
+    wait
+done
+
