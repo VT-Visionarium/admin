@@ -102,7 +102,7 @@ function start()
     # any logged in user should be able to
     # remove this file.
     mkfifo -m 666 $killfile
-    export XORGCONFIG=$conf
+#    export XORGCONFIG=$conf
     startx &
     pid=$!
 

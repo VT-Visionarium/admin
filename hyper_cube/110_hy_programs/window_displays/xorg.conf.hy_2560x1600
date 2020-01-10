@@ -27,8 +27,8 @@ Section "ServerLayout"
 EndSection
 
 Section "Files"
-    ModulePath  "/usr/lib64/xorg/modules/extensions/nvidia"
-    ModulePath  "/usr/lib64/xorg/modules"
+    ModulePath  "/usr/lib/xorg/modules/extensions/libglx.so"
+    ModulePath  "/usr/lib/xorg/modules"
     FontPath        "/usr/share/fonts/default/Type1"
 EndSection
 

@@ -20,6 +20,10 @@ edit /etc/X11/Xwrapper.config to include the line:
 allowed_users=anybody
 
 
+service lightdm stop
+systemctl disable lightdm.service
+
+
 (==) Log file: "/home/lance/.local/share/xorg/Xorg.1.log", Time: Thu Jan  9 15:44:01 2020
 (==) Using config file: "xorg.conf.hy_2560x1600"
 (==) Using system config directory "/usr/share/X11/xorg.conf.d"
