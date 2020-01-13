@@ -4,10 +4,8 @@ ftp://ftp.igd.fraunhofer.de/outgoing/irbuild/Ubuntu-18-x86_64/InstantReality-Ubu
 2> apt install gdebi
 
 3> Install on the machine using the following command on terminal
-sudo gdebi -i <downloaded_file.deb>
-# -i option did not work
-#used GUI
-gdebi-gtk
+sudo gdebi  <downloaded_file.deb>
+
 
 3> The program gets installed and on a successful install you can find
 file at the location /opt/instantReality/bin

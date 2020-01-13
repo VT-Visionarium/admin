@@ -16,7 +16,7 @@ PREFIX := /usr/local/encap/instantReality_VTCAVE-0.9
 
 # common compiler options used by all compiler commands
 #CXXFLAGS = -Wall -Werror
-CXXFLAGS = -Wall -Werror -g
+CXXFLAGS = -Wall -Werror -g -Wno-deprecated
 
 
 MODELS_DIR = $(PREFIX)/share/models
@@ -25,14 +25,12 @@ ENGINES_DIR = $(PREFIX)/share/instantReality_engines
 PLUGINS_DIR = $(PREFIX)/lib/instantReality_plugins
 BIN_DIR = $(PREFIX)/bin
 
-# TODO: remove the dtk stuff.
-DTK_ROOT = /usr/local
 IR_ROOT = /opt/instantReality
 
 InstantPlayer-caveUtil_getRootWidth_LDFLAGS = -lX11
 
 # C pre-processor flags used in the compile command to make objects
-CPPFLAGS = -fpic -I$(DTK_ROOT)/include -I$(IR_ROOT)/include
+CPPFLAGS = -fpic -I$(IR_ROOT)/include
 
 # All the linking stuff in making the shared object libraries.
 # No need to separate linker arguments into parts like LIBADD and shit.
