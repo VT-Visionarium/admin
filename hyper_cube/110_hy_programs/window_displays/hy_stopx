@@ -8,27 +8,16 @@ binDir="$PWD"
 source "$binDir"/hy_commonx
 
 
-function catcher()
-{
-    set -x
-    rm -f $killfile
-    # just making sure this program is not hung.
-    killall hy_stopx
-    killall wm2
-    exit
-}
-
 
 trap catcher SIGINT SIGTERM SIGQUIT
 
 
 if [ -e "$killfile" ] ; then
-    # the hy_startx script reads this
-    # file fifo for a "signal"
+    # The hy_startx script reads this file fifo for a "signal".
     #
-    # This could hang if there is no
-    # process reading this fifo so we
-    # added a catcher to try to cleanup.
+    # This could hang if there is no process reading this fifo so
+    # background it.
     #
-    echo "DIE YOU RAT" >> $killfile
+    echo "DIE YOU RAT" >> $killfile &
+    catcher
 fi

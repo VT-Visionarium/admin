@@ -1,3 +1,15 @@
 # This is a sourced bash script file.
 
 killfile=/tmp/hy_KILLFILE
+
+
+
+function catcher()
+{
+    set -x
+    set +e
+    rm -f $killfile
+    killall wm2
+    exit
+}
+

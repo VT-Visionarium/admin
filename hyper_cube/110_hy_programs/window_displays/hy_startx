@@ -23,6 +23,9 @@ binDir="$PWD"
 # hy_stopx.  killfile is set in hy_common
 source "$binDir"/hy_commonx
 
+
+
+
 xinitrc="${BASH_SOURCE[0]}"
 
 
@@ -61,15 +64,6 @@ EOF
 
 
 
-function catcher()
-{
-    set -x
-    rm -f $killfile
-    killall -ew wm2
-    exit
-}
-
-
 trap catcher SIGINT SIGTERM SIGQUIT
 
 function start()
@@ -82,14 +76,12 @@ function start()
         #
         set +x
         echo "Cannot run X Server, waiting for an X Server to stop."
+        echo "DIE YOU RAT" >> $killfile
         catcher
         exit
     fi
 
-    rm -f $killfile
-
-    # make a new and empty kill file
-    # any logged in user should be able to
+    # make a new and empty kill file any logged in user should be able to
     # remove this file.
     mkfifo -m 666 $killfile
 
@@ -105,23 +97,14 @@ function start()
     set -x
     read line < $killfile
     set +x
-    echo "finished reading $killfile"
-    set -x
-
-    # Remove the kill file
-    rm -f $killfile
-
-    set +x
     echo "read \"$line\" from: $killfile"
-    set -x
 
-    killall -ew wm2
+    catcher
  }
 
- set -x
+set -x
 
-# We run this function in the background and
-# then return.
+# We run this function in the background and then return.
 #
 start &
 
