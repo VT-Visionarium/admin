@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# For the most part this was written by Paul Rajilich
+# of visbox.com, file: RUN_BLEND_ALL_GRID_OFF
+
+set -e
+
+prog="$(basename $0)"
+
+bindir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+cd "$bindir"
+cd ..
+bindir="$PWD"
+blend="$bindir/nv-control-blend-visbox/nv-control-blend-visbox"
+unset bindir
+if [ ! -x "$blend" ] ; then
+    echo "File: \"$blend\" was not found"
+    exit 1
+fi
+
+
+function usage()
+{
+    cat <<EOF
+
+  Usage: $prog [-h|--help]
+
+  Turn off the test grid in the Virginia Tech HyperCube.
+
+
+                      OPTIONS
+
+     -h|--help  print this help and exit
+
+EOF
+    exit 1
+}
+
+[ -n "$1" ] && usage
+
+
+
+# LTL
+export DISPLAY=:0.0
+$blend 2 -b 640 -g 1.65 -o 0.001
+
+# LTR
+export DISPLAY=:0.1
+$blend 4 -b 640 -g 1.65 -o 0.001
+
+# LBL
+export DISPLAY=:0.2
+$blend 6 -t 640 -g 1.65 -o 0.001
+
+# LBR
+export DISPLAY=:0.3
+$blend 8 -t 640 -g 1.65 -o 0.001
+
+# CTL
+export DISPLAY=:0.4
+$blend 12 -b 640 -g 1.65 -o 0.001
+
+# CTR
+export DISPLAY=:0.5
+$blend 14 -b 640 -g 1.65 -o 0.001
+
+# CBL
+export DISPLAY=:0.6
+$blend 16 -t 640 -g 1.65 -o 0.001
+
+# CBR
+export DISPLAY=:0.7
+$blend 18 -t 640 -g 1.65 -o 0.001
+
+# RTL
+export DISPLAY=:0.8
+$blend 22 -b 640 -g 1.65 -o 0.001
+
+# RTR
+export DISPLAY=:0.9
+$blend 24 -b 640 -g 1.65 -o 0.001
+
+# RBL
+export DISPLAY=:0.10
+$blend 26 -t 640 -g 1.65 -o 0.001
+
+# RBR
+export DISPLAY=:0.11
+$blend 28 -t 640 -g 1.65 -o 0.001
+
+# FTL
+export DISPLAY=:0.12
+$blend 32 -b 640 -g 1.65 -o 0.001
+
+# FTR
+export DISPLAY=:0.13
+$blend 34 -b 640 -g 1.65 -o 0.001
+
+# FBL
+export DISPLAY=:0.14
+$blend 36 -t 640 -g 1.65 -o 0.001
+
+# FBR
+export DISPLAY=:0.15
+$blend 38 -t 640 -g 1.65 -o 0.001
+
+set +x
+echo "finished running $0"

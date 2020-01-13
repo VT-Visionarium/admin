@@ -1,0 +1,88 @@
+#!/bin/bash
+
+
+if [ "$1" = "-x" ] ; then
+    set -xe
+    killall hy_blackEdge
+    exit
+fi
+
+
+if [ -n "$1" ] ; then
+    cat << EOF
+
+  Usage: $(basename $0) [-h|--help]
+
+  Blackout the overlapping between overlapping X11 windows.
+  This is for testing.  You do not want to run this.
+
+                   OPTIONS
+
+    -h||--help  print this help and exit
+
+    -x          turn off the effect of this program
+
+
+EOF
+    exit 1
+fi
+
+
+set -eo pipefail
+
+scriptdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+cd "$scriptdir" || exit $?
+scriptdir="$PWD"
+
+drawBox="$scriptdir/hy_blackEdge"
+
+if [ -x $scriptdir/../projectors/hy_getRootWidth ] ; then
+    height="$($scriptdir/../projectors/hy_getRootWidth)"
+elif [ -x $scriptdir/hy_getRootWidth ] ; then
+    height="$($scriptdir/hy_getRootWidth)"
+else
+    echo "Program hy_getRootWidth was not found"
+    exit 1
+fi
+
+
+unset scriptdir
+h=320
+[ "$height" = "1920" ] && h=240
+
+
+set -x
+
+function draw()
+{
+    DISPLAY=$1 $drawBox $2 &
+}
+
+draw :0.0  -$h
+draw :0.1  -$h
+draw :0.2   $h
+draw :0.3   $h
+
+draw :0.4  -$h
+draw :0.5  -$h
+draw :0.6   $h
+draw :0.7   $h
+
+draw :0.8  -$h
+draw :0.9  -$h
+draw :0.10  $h
+draw :0.11  $h
+
+draw :0.12 -$h
+draw :0.13 -$h
+draw :0.14  $h
+draw :0.15  $h
+
+set +x
+
+echo "$0 finished"
+
+# Let the tty prompt show after the spew from above
+if tty ; then
+    sleep 1
+fi

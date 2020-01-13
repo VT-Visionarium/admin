@@ -21,7 +21,8 @@ install files in /etc/.
 We have no configure step between bootstrap and make.  The installation
 PREFIX is set in config.make.
 
-For the most part all this code is intended to be usable by more than one
-group of people: the Virginia Tech Visualization Group which is currently
-part of ARC (Advanced Research Computing) in Blacksburg at Virginia Tech.
+For the most part all this code is not intended to be usable by more than
+one group of people: the Virginia Tech Visualization Group which is
+currently part of ARC (Advanced Research Computing) in Blacksburg at
+Virginia Tech.
 

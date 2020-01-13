@@ -2,6 +2,28 @@
 
 set -eo pipefail
 
+function usage()
+{
+    cat <<EOF
+
+  Usage: $prog [-h|--help]
+
+  Display test xmessage windows in the Virginia Tech HyperCube.
+  This will open a window with different messages for all X11
+  16 screens in the CAVE.
+
+  
+                      OPTIONS
+
+     -h|--help  print this help and exit
+
+EOF
+    exit 1
+}
+
+[ -n "$1" ] && usage
+
+
 color=blue
 lt=" LEFT EYE"
 rt="RIGHT EYE"

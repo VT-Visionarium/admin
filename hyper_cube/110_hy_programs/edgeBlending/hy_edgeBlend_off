@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eo pipefail
+
+scriptdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+source "$scriptdir"/hy_edgeBlend_common
+unset scriptdir
+
+
+if [ -n "$1" ] ; then
+    cat << EOF
+
+  Usage: $(basename $0) [-h|--help]
+
+  Turn off edge blending between the overlapping X11 windows.
+  See also \`hy_edgeBlend_on -h'.
+
+EOF
+    exit 1
+fi
+
+
+set -x
+
+# blend_off DISPLAY GRAPHIC_NUM
+blend_off :0.0 2
+blend_off :0.1 4
+blend_off :0.2 6
+blend_off :0.3 8
+
+blend_off :0.4 12
+blend_off :0.5 14
+blend_off :0.6 16
+blend_off :0.7 18
+
+blend_off :0.8 22
+blend_off :0.9 24
+blend_off :0.10 26
+blend_off :0.11 28
+
+blend_off :0.12 32
+blend_off :0.13 34
+blend_off :0.14 36
+blend_off :0.15 38
+
+echo "$0 finished"

@@ -4,7 +4,6 @@ set -e
 
 magic_arg=--hy_start_X11_ZXXx
 
-
 if [ "$1" = "$magic_arg" ] ; then
     # This runs in the new X display
     export DISPLAY=:0
@@ -14,14 +13,14 @@ if [ "$1" = "$magic_arg" ] ; then
 fi
 
 
-
 set -exo pipefail
-cd $(dirname ${BASH_SOURCE[0]})
-binDir="$PWD"
 
-# killfile must be the same path as in
-# hy_stopx.  killfile is set in hy_common
-source "$binDir"/hy_commonx
+prog="$(basename $0)"
+
+scriptdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+# killfile must be the same path as in hy_startx
+source "$scriptdir"/hy_commonx
+unset scriptdir
 
 
 
@@ -42,12 +41,14 @@ config="xorg.conf.hy_2560x1600"
 ##################################################
 
 
+trap catcher SIGINT SIGTERM SIGQUIT
+
 
 function usage()
 {
     cat <<EOF
 
-  Usage: $0 [-h|--help]
+  Usage: $prog [-h|--help]
 
   Runs X11 server display server for the Virginia Tech HyperCube.
 
@@ -63,22 +64,21 @@ EOF
 [ -n "$1" ] && usage
 
 
-
-trap catcher SIGINT SIGTERM SIGQUIT
-
 function start()
 {
     if [ -e "$killfile" ] ; then
-
-        # The user that ran this is a bad user in this case.
-
-        # We make this user pay:
-        #
         set +x
-        echo "Cannot run X Server, waiting for an X Server to stop."
+        echo "Cannot run X Server yet, waiting for an X Server to stop."
         echo "DIE YOU RAT" >> $killfile
-        catcher
-        exit
+        sleep 1
+        set -x
+        rm -f $killfile
+        killall wm2
+        if [ -e "$killfile" ] ; then
+            set +x
+            echo "Failed to remove $killfile"
+            exit 1
+        fi
     fi
 
     # make a new and empty kill file any logged in user should be able to
@@ -92,13 +92,14 @@ function start()
     #
     set +x
     echo "blockin on reading $killfile"
+    set -x
     # This read call will block until something
     # writes to the killfile
-    set -x
     read line < $killfile
     set +x
     echo "read \"$line\" from: $killfile"
 
+    # Calling the signal catcher will try to stop the X11 server and exit.
     catcher
  }
 
@@ -108,3 +109,6 @@ set -x
 #
 start &
 
+# We add a sleep so that maybe the prompt is not pushed away by the X11
+# server spew.
+sleep 10

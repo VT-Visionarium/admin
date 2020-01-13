@@ -1,0 +1,71 @@
+#!/bin/bash
+
+scriptdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+cd "$scriptdir" || exit $?
+scriptdir="$PWD"
+
+blend="$scriptdir/../nv-control-blend-visbox/nv-control-blend-visbox"
+
+if [ ! -x "$blend" ] ; then
+    echo "Program $blend not found"
+    exit 1
+fi
+
+if [ -x "$scriptdir/projectors/hy_getRootWidth" ] ; then
+    x="$($scriptdir/projectors/hy_getRootWidth)"
+elif which hy_getRootWidth ; then
+    x="$(hy_getRootWidth)"
+else
+    echo "Failed to find program: hy_getRootWidth"
+    exit 1
+fi
+
+unset scriptdir
+
+# if 2x 1920x1200 displays per wall the vertical overlap is 480 pixels
+# if 2x 2560x1600 displays per wall the vertical overlap is 640 pixels
+# res is low res: 1920x1200 pixels  or high res: 2560x1600 pixels
+
+if [ "$x" = "1920" ] ; then
+    # We assume res is 1920x1200
+    overlap=480
+    res="1920 1200"
+else
+    # default to high res 2560x1600
+    overlap=640
+    res="2560 1600"
+fi
+
+
+
+# Usage: blend DPY NUM OPT
+
+# example: blend :0.4 12 -b
+# will blend X11 screen 4, graphic thingy 12, bottom
+
+# example: blend :0.2 6 -t
+# will blend X11 screen 2, graphic thingy 6, top
+function blend_on()
+{
+    [ -n $3 ] || exit 1
+
+    # I expect this code is will not have a representative
+    # return code, so we are not doing: '$run || exit 1'
+    # or like thing.
+    set -x
+    DISPLAY=$1 $blend $2 $3 $overlap -g 1.65
+    set +x
+}
+
+# Usage: blend DPY NUM
+function blend_off()
+{
+    [ -n $2 ] || exit 1
+
+    # I expect this code is will not have a representative
+    # return code, so we are not doing: '$run || exit 1'
+    # or like thing.
+    set -x
+    DISPLAY=$1 $blend $2 $res
+    set +x
+}

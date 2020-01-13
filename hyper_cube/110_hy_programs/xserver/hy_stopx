@@ -1,0 +1,48 @@
+#!/bin/bash
+
+
+
+set -exo pipefail
+
+prog="$(basename $0)"
+
+scriptdir="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+# killfile must be the same path as in hy_startx
+source "$scriptdir"/hy_commonx
+unset scriptdir
+
+
+trap catcher SIGINT SIGTERM SIGQUIT
+
+function usage()
+{
+    cat <<EOF
+
+  Usage: $prog [-h|--help]
+
+  Stops X11 server display server for the Virginia Tech HyperCube.
+
+  
+                      OPTIONS
+
+     -h|--help  print this help and exit
+
+EOF
+    exit 1
+}
+
+[ -n "$1" ] && usage
+
+
+if [ -e "$killfile" ] ; then
+    # The hy_startx script reads this file fifo for a "signal".
+    #
+    # This could hang if there is no process reading this fifo so
+    # background it.
+    #
+    echo "DIE YOU RAT" >> $killfile &
+    catcher &
+    # We add a sleep so that maybe the prompt is not pushed away by the
+    # X11 server spew.
+    sleep 8
+fi

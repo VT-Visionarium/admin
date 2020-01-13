@@ -37,9 +37,9 @@ rm -f hy_getRootWidth hy_projectors_off hy_projectors_on
 cd -
 
 
-# window_displays/
+# xserver/
 ##########################################
-cd window_displays/
+cd xserver/
 
 
 cd -
