@@ -1,32 +1,34 @@
+WM2 window manager takes the minimalist approach:
+http://www.xwinman.org/wm2.php
+
+
+
+
 edit /etc/X11/Xwrapper.config to include the line:
 allowed_users=anybody
 
+Gets rid of the error mesage:
+/usr/lib/xorg/Xorg.wrap: Only console users are allowed to run the X server
 
 
-#Run:
 
+
+Running X11 with startx leads to problems.  We do not want to use the
+startx that come with XFCE.  startx tends to add user custom desktops
+that will like all users have a different desktop.  If user wish to
+do that we do not stop them, but hy_starts will make the same desktop
+for any user that runs it.  Advanced users may run
 XORGCONFIG=xorg.conf.hy_2560x1600 startx
-
-GIVES SPEW:
-/usr/lib/xorg/Xorg.wrap: Only console users are allowed to run the X
-server
+to make their own desktop.
 
 
-So we must reconfigure so that non-console users are allowed to run the X
-server.
 
-edit /etc/X11/Xwrapper.config to include the line:
 
-allowed_users=anybody
-#needs_root_rights=yes
-
-# Installed a very simple window manager wm2
+# Installed the very simple window manager wm2
 apt install wm2
 
 service lightdm stop
 systemctl disable lightdm.service
-
-
 
 cp -a  /usr/share/X11/xorg.conf.d /usr/share/X11/xorg.conf.d.ORG
 
@@ -38,8 +40,13 @@ Run:
 ./hy_start
 
 In the X windows on the cube projector left wall run:
-nvidia-settings
+sudo nvidia-settings
 
-
-
+We used this GUI program, nvidia-settings, to make the file
+xorg.conf.hy_2560x1600.   We did not install it as
+/etc/X11/xorg.conf, because that can let the 'startx' program
+that installed with the system run X11 given a user configurable
+desktop which works against what we need to do.  We need to
+make a "CAVE" display that just displays CAVE programs, not
+regular desktop programs.
 
