@@ -44,7 +44,8 @@ apt-get install -y\
  libtool\
  automake\
  locate\
- libgnutls28-dev
+ libgnutls28-dev\
+ xmlstarlet
 
 
 mkdir -p /usr/local/sbin
