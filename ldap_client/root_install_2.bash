@@ -72,25 +72,6 @@ set +x
 echo "/etc/pam.d/common-session has been changed"
 echo
 
-######################## edit /etc/pam.d/common-auth ##########################
-
-set +x
-Prompt "NEXT with add/check with vim adding pam_group.so to /etc/pam.d/common-auth"
-
-set -x
-tmp=$(mktemp --suffix=ldap_client_pam_common_)
-cat << EOF > $tmp
-# next line added by lance on $date
-auth    required    pam_group.so use_first_pass
-
-EOF
-cat /etc/pam.d/common-auth >> $tmp
-vim $tmp
-
-Prompt "SAVE this edit as /etc/pam.d/common-auth"
-set -x
-mv $tmp /etc/pam.d/common-auth
-chmod 644 /etc/pam.d/common-auth
 
 ####################### change /etc/security/group.conf" ######################
 
