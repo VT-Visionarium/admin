@@ -6,7 +6,7 @@ set -exo pipefail
 
 cd "$(dirname ${BASH_SOURCE[0]})"
 
-make_opts="-j 30"
+make_opts="-j 24"
 
 tag=v13.6.0
 
@@ -43,15 +43,16 @@ else
     set -x
 fi
 
+try=0
+while [ -d "${tarname}-try-$try" ] ; do
+    let try=$try+1
+done
+builddir="${tarname}-try-$try"
 
-if [ ! -d "$tarname" ] ; then
-    mkdir $tarname
-    cd $tarname
-    tar --strip-components=1 -xzf ../$tarfile
-    cd -
-fi
+mkdir "$builddir"
+cd "$builddir"
+tar --strip-components=1 -xzf ../$tarfile
 
-cd $tarname
 ./configure --prefix=$prefix
 make $make_opts
 make install
