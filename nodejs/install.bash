@@ -36,7 +36,7 @@ if [ ! -e "$tarfile" ] ; then
 fi
 
 if [ -n "$sha512sum" ] ; then
-    echo "$sha512sum  $tarfile" | sha512sum -C -
+    echo "$sha512sum  $tarfile" | sha512sum -c -
 else
     set +x
     sha512sum $tarfile
