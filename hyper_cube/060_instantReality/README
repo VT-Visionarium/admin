@@ -1,14 +1,19 @@
-1> Downlaod Instant Player 2019 file from the following url
+1. Downlaod Instant Player 2019 file from the following url
 ftp://ftp.igd.fraunhofer.de/outgoing/irbuild/Ubuntu-18-x86_64/InstantReality-Ubuntu-18.04-x64-2.15.0.52878rc1.deb
 
-2> apt install gdebi
+2. apt install gdebi
 
-3> Install on the machine using the following command on terminal
+3. Install on the machine using the following command on terminal
 sudo gdebi  <downloaded_file.deb>
 
 
-3> The program gets installed and on a successful install you can find
+The program gets installed and on a successful install you can find
 file at the location /opt/instantReality/bin
+
+# install the license
+sudo mv /opt/instantReality/bin/license.xml default_license.xml
+sudo cp 2019_IR-license.xml /opt/instantReality/bin/license.xml
+
 
 Wed Jan  8 16:50:27 EST 2020
 ftp://ftp.igd.fraunhofer.de/outgoing/irbuild/Ubuntu-18-x86_64/InstantReality-Ubuntu-18.04-x64-2.15.0.53403.deb
