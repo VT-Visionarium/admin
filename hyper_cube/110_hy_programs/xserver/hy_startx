@@ -1,15 +1,17 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 magic_arg=--hy_start_X11_ZXXx
 
 if [ "$1" = "$magic_arg" ] ; then
     # This runs in the new X display
-    export DISPLAY=:0
-    xclock -geometry 1000x1000-0+0 -bw 0 &
-    xfce4-terminal --geometry=173x49+0+0 &
-    exec wm2
+    export DISPLAY=:0.0
+    # If you change this we'll need to edit hy_commonx
+    # so it know what to kill.
+    exec xclock -geometry 1000x1000+0+0
+    #xfce4-terminal --geometry=173x49+0+0 &
+    #exec wm2
 fi
 
 

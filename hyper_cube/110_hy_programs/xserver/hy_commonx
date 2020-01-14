@@ -9,7 +9,7 @@ function catcher()
     set -x
     set +e
     rm -f $killfile
-    killall wm2
+    killall xclock
     exit
 }
 
