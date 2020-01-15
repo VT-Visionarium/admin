@@ -1,0 +1,7 @@
+We installed and maintain a separate software package:
+
+https://github.com/VT-Visionarium/webLauncher.git
+
+ssh:
+git@github.com:VT-Visionarium/webLauncher.git
+
