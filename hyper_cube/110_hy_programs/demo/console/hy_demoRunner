@@ -13,6 +13,23 @@ just_server=
 
 port=8383
 
+hy_pushSshKeys=hy_pushSshKeys
+
+# find program hy_pushSshKeys
+if ! which hy_pushSshKeys ; then
+    set -e
+    scriptdir="$(dirname ${BASH_SOURCE[0]})"
+    cd $scriptdir
+    scriptdir="$PWD"
+    cd -
+    hy_pushSshKeys="$scriptdir/hy_pushSshKeys"
+    if [ ! -x "$hy_pushSshKeys" ] ; then
+        echo "Cannot find program: hy_pushSshKeys"
+        exit 1
+    fi
+    set +e
+fi
+
 ######################################
 
 function usage()
@@ -143,8 +160,9 @@ done
 echo "host=$host rhost=$rhost"
 
 
+
 if [ "$host" != "$rhost" ] ; then
-    if ! hy_pushSshKeys $host ; then
+    if ! $hy_pushSshKeys $host ; then
         echo
         echo "FAILED to check ssh keys"
         echo

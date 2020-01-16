@@ -1,4 +1,7 @@
 
+# do not recure into the console directory
+SUBDIRS := .
+
 INSTALL_DIR = $(PREFIX)/bin
 
 INSTALLED :=\
@@ -6,7 +9,6 @@ INSTALLED :=\
  hy_frameLock_on\
  hy_start\
  hy_stop\
- hy_pushSshKeys\
  hy_demoServer\
  hy_syncToVBlank_on\
  hy_syncToVBlank_off

@@ -6,3 +6,14 @@ On the cube computer run:
 The script hy_demoLauncher needs to be installed on a different
 computer.   We run hy_demoLauncher to launch the demo launcher
 web server on the cube.
+
+The console programs are meant to run on a "remote console computer" (not
+on the cube computer that runs the projectors) and can be installed in
+/usr/local/encap/hy_console-VERS by running:
+
+   cd console
+   make
+   make install
+   cd -
+
+
