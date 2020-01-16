@@ -1,0 +1,58 @@
+#!/bin/bash
+
+ret=0
+
+function usage()
+{
+    cat <<EOF
+
+  Usage: $0 [-h|--help]
+
+  Run programs needed to stop a HyperCube session.
+
+  Runs the following 3 programs:
+      
+       # to shutdown the demoRunner server
+       wget http://localhost:8080/QUIT -O -
+
+       # If the demoRunner server was running it may have
+       # ran these for us already, but if not we do this
+       # anyway:
+       hy_stopx               turn off user X session
+       hy_projectors_off      turn off the projectors
+
+EOF
+
+    exit 1
+}
+
+function Run()
+{
+    if ! $* ; then
+        echo
+        echo "$* FAILED"
+        let ret=$ret+1
+    fi
+}
+
+
+while [ -n "$1" ] ; do
+    case $1 in
+        -h|--h*|*)
+            usage
+            ;;
+    esac
+    shift 1
+done
+
+# The server may not be running, but in any case if this
+# fails we have no other recourse.
+# --timeout=10 is 10 seconds
+wget --timeout=10 --tries=1 http://localhost:8080/QUIT -O -
+
+Run hy_projectors_off
+Run hy_stopx
+
+echo "$0 finished with return status $ret"
+
+exit $ret

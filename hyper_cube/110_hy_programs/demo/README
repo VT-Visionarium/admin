@@ -1,0 +1,8 @@
+On the cube computer run:
+
+   make
+   make install
+
+The script hy_demoLauncher needs to be installed on a different
+computer.   We run hy_demoLauncher to launch the demo launcher
+web server on the cube.

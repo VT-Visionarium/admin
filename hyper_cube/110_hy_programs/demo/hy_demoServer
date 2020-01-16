@@ -1,0 +1,79 @@
+#!/bin/bash
+
+######################################
+######################################
+
+root=/home/demo
+port=8383
+
+######################################
+
+function usage()
+{
+    cat << EOF
+
+  Usage: $(basename $0) [-m|--mono][--no-stop]|[-h|--help]
+
+  Run the hyperCube demoRunner web server.
+
+
+          OPTIONS
+
+    --passcode PASSCODE   Set the URL passcode to PASSCODE
+
+    -h|--help             Print this help and exit
+    
+    -m|--mono             Run programs with mono visuals (not stereo)
+
+    --no-stop             Don't run hy_stop after quiting.  hy_stop stops the
+                          X session and turns off projects.
+
+EOF
+
+    exit 1
+}
+
+set -e
+
+passcode=
+heading="HyperCube Demos in stereo"
+run_stop=" --on_exit hy_stop"
+
+while [ -n "$1" ] ; do
+    case "$1" in
+        --passcode|-passcode)
+            shift 1
+            passcode=" --passcode $1"
+            ;;
+        --passcode=*|-passcode=*)
+            passcode=" --passcode ${1#*-passcode=}"
+            ;;
+        --no-stop)
+            run_stop=
+            ;;
+        -m*|--m*)
+            env_opts=" INSTANTPLAYER_CAVE_OPTIONS=--mono HYPERCUBE_OPTIONS=--mono"
+            heading="HyperCube Demos in mono"
+            ;;
+        -*)
+            usage
+            ;;
+    esac
+    shift 1
+done
+
+set -x
+
+cd $root
+
+exec${env_opts}\
+ webLauncher --root_dir $root\
+ --title Demos\
+ --exit_on_last 6000\
+ --https_port $port\
+ --kill_children\
+${run_stop}\
+$passcode\
+ --catch_signal SIGINT\
+ --heading "$heading"
+

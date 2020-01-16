@@ -1,0 +1,170 @@
+#!/bin/bash
+
+function usage()
+{
+    cat <<EOF
+
+  Usage: $0 [-m|--mono]|[-s|--stereo]|[-h|--help]
+
+  Run many programs needed to start a HyperCube session.
+
+  Runs the following 5 programs:
+
+    hy_stopx                   makes sure no user X sessions are running
+    hy_projectors_on [--mono]  turn on projects
+    hy_startx                  start a user login X session
+    hy_edgeBlend_on            fade the edges of overlapping root windows
+    #hy_frameLock_on (removed) turn on nvidia frame locking (BROKEN??)
+    hy_syncToVBlank_on         turn on nvidia sync to verticle refresh
+
+  By default we turn on the projector for stereo display, not --mono.
+
+EOF
+
+    exit 1
+}
+
+function Fail()
+{
+    if [ -n "$1" ] ; then
+        echo
+        echo "$*"
+        echo
+    fi
+
+    echo "$0 failed"
+    exit 1
+}
+
+function Run()
+{
+    echo "$*"
+    if ! $* ; then
+        echo
+        echo "$* FAILED"
+        exit 1
+    fi
+}
+
+
+# default mono is off
+mono=
+
+
+while [ -n "$1" ] ; do
+    case $1 in
+        -h|--h*)
+            usage
+            ;;
+        -m|-mono|--m|--mono)
+            mono="--mono"
+            ;;
+        -s|-stereo|--s|--stereo)
+            mono=
+            ;;
+        *)
+            usage
+            ;;
+    esac
+    shift 1
+done
+
+# first kill any old user X sessions
+# This also wait for many X programs to not
+# be running anymore and so this could hang
+# forever.
+Run hy_stopx
+
+
+
+
+# TODO: need an error check here
+Run hy_projectors_on $mono
+
+Run hy_startx
+
+
+function WaitForXProgramsToBeRunning()
+{
+    for prog in xclock ; do
+        count=0
+        while ! killall -CONT $prog ; do
+            echo "Waiting ($count seconds) for $prog to be running"
+	    sleep 1
+	    let count=$count+1
+            if [ $count = 40 ] ; then
+                cat <<EOF
+ Failed ($count seconds) to find $prog running
+
+EOF
+	        exit 1
+            fi
+        done
+        echo "$prog is now running"
+    done
+}
+
+# The programs xfwm4 xfce4-session and xfdesktop maybe running but the
+# dummies that wrote them do not provide a way to tell if they are ready
+# to be used yet.  We note that starting some X11 programs too soon after
+# these programs start will make things brake.
+
+
+WaitForXProgramsToBeRunning
+
+
+
+displaySave="$DISPLAY"
+
+# Check all 16 X displays.  Sometimes just one fails.
+# We check 15 first because it is the last to display
+# at X startup.
+for i in 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ; do
+    export DISPLAY=:0.$i
+    echo "DISPLAY=:0.$i xset -q"
+    xset -q > /dev/null ||\
+ Fail "cannot run xset -q on DISPLAY=:0.$i"
+done
+
+# At this point it has been shown that running GTK+ program can get in a
+# hung state.  A kill -9 can kill it, but kill -INT will not kill it.  The
+# program just runs like all it's input is stopped.  It gets stuck in a
+# blocking _poll() call.  It's a GTK+, X11 and/or XFCE bug for sure.
+
+# Maybe /etc/xdg/autostart/hy_checkX11Session.desktop will fix the need
+# for this sleep.
+
+
+# We would rather fail here then when running the hy_edgeBlend_on, because
+# hy_edgeBlend_on can put the hardware in a bad state, or so it seems.
+for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ; do
+    # This checks and waits for X to draw a widget with
+    # a GTK+ window and then exits.
+    export DISPLAY=:0.$i
+    echo "DISPLAY=:0.$i hy_checkXRunning --sync"
+    # Will this hang?
+    hy_checkXRunning --sync ||\
+ Fail "cannot run GTK+ program on DISPLAY=:0.$i"
+done
+
+
+# We confirmed that we can connect to this X server
+# on all 16 display screens
+echo "found a good X server at all 16 screens"
+[ -n "$displaySave" ] && export DISPLAY="$displaySave"
+
+
+
+# TODO: We will not get an error check here until nvidia fixes
+# the return status value from the nvidia-settings program
+# in hy_syncToVBlank_on
+
+Run hy_edgeBlend_on
+
+#This one is broken?  We'll see...
+#Run hy_frameLock_on
+
+Run hy_syncToVBlank_on
+
+echo "$0 Started Okay, so it seems."
+echo "$0 finished"
