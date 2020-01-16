@@ -108,12 +108,6 @@ ${run_stop}\
 }
 
 
-# I guess this assumes that you are using a bash shell on $host
-if ! ssh $host "if [ ! -d $root ] ; then exit 1 ; fi" ; then
-    root=/usr/local/src/webLauncher
-    echo "Setting server doc root to: $root"
-fi
-
 script_args=
 
 while [ -n "$1" ] ; do
