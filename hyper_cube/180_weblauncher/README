@@ -2,6 +2,12 @@ We installed and maintain a separate software package:
 
 https://github.com/VT-Visionarium/webLauncher.git
 
-ssh:
-git@github.com:VT-Visionarium/webLauncher.git
+ssh:git@github.com:VT-Visionarium/webLauncher.git
 
+
+We also needed to do:
+
+   chmod 666 /usr/local/encap/webLauncher/etc/key.pem
+
+so that all users on the system can start the web service via
+the "webLauncher" program which must be able to read that file.
