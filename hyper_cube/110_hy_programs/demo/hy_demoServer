@@ -1,10 +1,13 @@
 #!/bin/bash
 
+set -e
+
 ######################################
 ######################################
 
 root=/home/demo
 port=8383
+hostname="$(hostname -s).$(domainname)"
 
 ######################################
 
@@ -33,7 +36,6 @@ EOF
     exit 1
 }
 
-set -e
 
 passcode=
 heading="HyperCube Demos in stereo"
@@ -66,14 +68,17 @@ set -x
 
 cd $root
 
+passcode="$(openssl rand -hex 2)"
+
 exec${env_opts}\
  webLauncher --root_dir $root\
  --title Demos\
  --exit_on_last 6000\
+ --passcode="$passcode"\
  --https_port $port\
  --kill_children\
+ --hostname="$hostname"\
 ${run_stop}\
-$passcode\
  --catch_signal SIGINT\
  --heading "$heading"
 
