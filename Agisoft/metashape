@@ -4,8 +4,8 @@ set -e
 
 dir="$(dirname $(readlink -e ${BASH_SOURCE[0]}))"
 
-export DISPLAY=:0.10
+export DISPLAY=:0.0
 
-$dir/metashape_MovePointer
+#$dir/metashape_MovePointer
 
 exec $dir/../metashape.sh
