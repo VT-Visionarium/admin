@@ -6,16 +6,21 @@ set -exo pipefail
 
 cd "$(dirname ${BASH_SOURCE[0]})"
 
-make_opts="-j 24"
+make_opts="-j 13"
 
-tag=v13.6.0
-
+tag=v13.9.0
 
 tarname=nodejs-$tag
 
-url=https://github.com/nodejs/node/tarball/$tag
+try=0
+while [ -d "${tarname}-try-$try" ] ; do
+    let try=$try+1
+done
+build="${tarname}-try-$try"
+prefix=/usr/local/encap/$build
+builddir="$build"
 
-prefix=/usr/local/encap/$tarname
+url=https://github.com/nodejs/node/tarball/$tag
 
 tarfile=$tarname.tar.gz
 
@@ -42,12 +47,6 @@ else
     sha512sum $tarfile
     set -x
 fi
-
-try=0
-while [ -d "${tarname}-try-$try" ] ; do
-    let try=$try+1
-done
-builddir="${tarname}-try-$try"
 
 mkdir "$builddir"
 cd "$builddir"
