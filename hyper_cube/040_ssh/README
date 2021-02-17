@@ -5,3 +5,7 @@ edit /etc/ssh/ssd_config
 and add the line
 
 AllowUsers lance and other users
+
+
+
+service ssh restart
