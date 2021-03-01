@@ -83,6 +83,8 @@ function start()
         fi
     fi
 
+    set -x
+
     # make a new and empty kill file any logged in user should be able to
     # remove this file.
     mkfifo -m 666 $killfile
