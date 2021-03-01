@@ -1,0 +1,63 @@
+
+# to list files
+dpkg --contents file.deb
+
+Tivoli Storage Manager for UNIX Using the Backup-Archive Clients
+http://publib.boulder.ibm.com/tividd/td/TSMC/SH26-4122-01/en_US/HTML/ans50016.htm
+
+
+# getting TSM client programs to install
+wget ftp://public.dhe.ibm.com/storage/tivoli-storage-management/maintenance/client/v7r1/Linux/LinuxX86_DEB/BA/v714/7.1.4.0-TIV-TSMBAC-LinuxX86_DEB.tar
+
+
+
+FILES:
+
+  centOS/
+
+      has files in info to install on TSM client software
+      on CentOS using rpms.  At the time of writing this it's
+      just for one machine cube.sv.vt.edu.
+
+
+  backupRestore/
+
+      locally developed scripts we use to do backup and restore
+      using the TSM client software
+
+
+
+
+
+
+TSM Client on to make and restore backups using
+Virginia Techs' Tivoli Storage Manager (TSM)
+
+We looked at:
+http://www.shellhacks.com/en/HowTo-Install-TSM-Client-on-CentOS-RHEL 
+
+
+
+
+# make a version of dsm.opt and dsm.sys
+
+# Add /opt/tivoli/tsm/client/ba/bin/dsm.opt
+# Add /opt/tivoli/tsm/client/ba/bin/dsm.sys
+#
+cp dsm.opt dsm.sys /opt/tivoli/tsm/client/ba/bin/
+
+# We ran this from this directory we ran:
+mkdir 7.1.4.0-TIV-TSMBAC-LinuxX86
+cd 7.1.4.0-TIV-TSMBAC-LinuxX86
+tar -xvf ../7.1.4.0-TIV-TSMBAC-LinuxX86_DEB.tar
+
+sudo -i
+cd /usr/local/src/TSM_backupClient/7.1.4.0-TIV-TSMBAC-LinuxX86/
+gdebi gskcrypt64_8.0-50.52.linux.x86_64.deb
+gdebi gskssl64_8.0-50.52.linux.x86_64.deb
+gdebi tivsm-api64.amd64.deb
+gdebi tivsm-ba.amd64.deb
+update-rc.d dsmcad defaults
+update-rc.d dsmcad enable
+service dsmcad start
+
