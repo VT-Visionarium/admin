@@ -18,6 +18,28 @@ http://www.shellhacks.com/en/HowTo-Install-TSM-Client-on-CentOS-RHEL
 
 
 
+# We ran this from this directory we ran:
+
+mkdir 8.1.9.0-TIV-TSMBAC-LinuxX86_DEB
+cd 8.1.9.0-TIV-TSMBAC-LinuxX86_DEB
+tar -xvf ../8.1.9.0-TIV-TSMBAC-LinuxX86_DEB.tar
+
+
+sudo -i
+cd /home/lance/git/admin/TSM_backupClient/8.1.9.0-TIV-TSMBAC-LinuxX86_DEB
+
+#OLD STUFF
+#gdebi gskcrypt64_8.0-50.52.linux.x86_64.deb
+#gdebi gskssl64_8.0-50.52.linux.x86_64.deb
+#gdebi tivsm-api64.amd64.deb
+#gdebi tivsm-ba.amd64.deb
+
+# NEWER STUFF
+gdebi gskcrypt64_8.0-55.9.linux.x86_64.deb
+gdebi gskssl64_8.0-55.9.linux.x86_64.deb
+gdebi tivsm-api64.amd64.deb
+gdebi tivsm-ba.amd64.deb
+
 # make a version of dsm.opt and dsm.sys
 
 # Add /opt/tivoli/tsm/client/ba/bin/dsm.opt
@@ -25,18 +47,13 @@ http://www.shellhacks.com/en/HowTo-Install-TSM-Client-on-CentOS-RHEL
 #
 cp dsm.opt dsm.sys /opt/tivoli/tsm/client/ba/bin/
 
-# We ran this from this directory we ran:
-mkdir 7.1.4.0-TIV-TSMBAC-LinuxX86
-cd 7.1.4.0-TIV-TSMBAC-LinuxX86
-tar -xvf ../7.1.4.0-TIV-TSMBAC-LinuxX86_DEB.tar
 
-sudo -i
-cd /usr/local/src/TSM_backupClient/7.1.4.0-TIV-TSMBAC-LinuxX86/
-gdebi gskcrypt64_8.0-50.52.linux.x86_64.deb
-gdebi gskssl64_8.0-50.52.linux.x86_64.deb
-gdebi tivsm-api64.amd64.deb
-gdebi tivsm-ba.amd64.deb
 update-rc.d dsmcad defaults
 update-rc.d dsmcad enable
 service dsmcad start
+
+
+# Now we need to authenticate this computer with the TSM server.
+# Need a password reset to do so.
+# Request password reset at https://4help.vt.edu/
 
