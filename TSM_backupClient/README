@@ -22,6 +22,7 @@ http://www.shellhacks.com/en/HowTo-Install-TSM-Client-on-CentOS-RHEL
 
 mkdir 8.1.9.0-TIV-TSMBAC-LinuxX86_DEB
 cd 8.1.9.0-TIV-TSMBAC-LinuxX86_DEB
+wget ftp://public.dhe.ibm.com/storage/tivoli-storage-management/maintenance/client/v8r1/Linux/LinuxX86_DEB/BA/v819/8.1.9.0-TIV-TSMBAC-LinuxX86_DEB.tar
 tar -xvf ../8.1.9.0-TIV-TSMBAC-LinuxX86_DEB.tar
 
 
