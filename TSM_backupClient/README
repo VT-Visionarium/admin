@@ -7,27 +7,7 @@ http://publib.boulder.ibm.com/tividd/td/TSMC/SH26-4122-01/en_US/HTML/ans50016.ht
 
 
 # getting TSM client programs to install
-wget ftp://public.dhe.ibm.com/storage/tivoli-storage-management/maintenance/client/v7r1/Linux/LinuxX86_DEB/BA/v714/7.1.4.0-TIV-TSMBAC-LinuxX86_DEB.tar
-
-
-
-FILES:
-
-  centOS/
-
-      has files in info to install on TSM client software
-      on CentOS using rpms.  At the time of writing this it's
-      just for one machine cube.sv.vt.edu.
-
-
-  backupRestore/
-
-      locally developed scripts we use to do backup and restore
-      using the TSM client software
-
-
-
-
+wget ftp://public.dhe.ibm.com/storage/tivoli-storage-management/maintenance/client/v8r1/Linux/LinuxX86_DEB/BA/v819/8.1.9.0-TIV-TSMBAC-LinuxX86_DEB.tar
 
 
 TSM Client on to make and restore backups using
@@ -35,7 +15,6 @@ Virginia Techs' Tivoli Storage Manager (TSM)
 
 We looked at:
 http://www.shellhacks.com/en/HowTo-Install-TSM-Client-on-CentOS-RHEL 
-
 
 
 
