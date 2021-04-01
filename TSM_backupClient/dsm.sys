@@ -1,7 +1,7 @@
 SErvername  adsm
    COMMMethod         tcpip
    TCPPort            1500
-   TCPServeraddress   canoe.cc.vt.edu
+   TCPServeraddress   yacht.cc.vt.edu
    nodename           CUBE.SV.VT.EDU
    Passwordaccess     generate
    schedlogretention  10
