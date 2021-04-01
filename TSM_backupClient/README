@@ -53,6 +53,12 @@ update-rc.d dsmcad defaults
 update-rc.d dsmcad enable
 service dsmcad start
 
+lance@cube:~/git/admin/TSM_backupClient$ /opt/tivoli/tsm/client/ba/bin/dsm
+
+> set password
+
+
+
 
 # Now we need to authenticate this computer with the TSM server.
 # Need a password reset to do so.
