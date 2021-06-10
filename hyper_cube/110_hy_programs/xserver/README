@@ -50,3 +50,6 @@ desktop which works against what we need to do.  We need to
 make a "CAVE" display that just displays CAVE programs, not
 regular desktop programs.
 
+# did
+sudo cp xorg.conf.hy_2560x1600 xorg.conf.hy_1920x1200 /etc/X11/
+
